@@ -297,14 +297,25 @@ class ResearchAuditor:
             )
 
         # Check 3: DNS Apex CNAME Violation
-        if "cname can be placed at the root" in full_text_lower or ("cname at apex" in full_text_lower and "cannot" not in full_text_lower):
+        apex_flaw_detected = any(
+            pattern in full_text_lower
+            for pattern in (
+                "cname can be placed at the root",
+                "cname can be placed at the zone apex",
+                "cname records can be placed at the zone apex",
+                "cname can coexist with other records at zone apex",
+                "cname at apex is allowed",
+            )
+        )
+        if apex_flaw_detected:
             target_sec_id = "sec_dns_3_records"
             actual_quote = "CNAME can be placed at the root zone apex without restrictions."
             for sec in lesson_plan.sections:
-                if "cname can be placed at the root" in sec.content_markdown.lower() or "cname at apex" in sec.content_markdown.lower():
+                sec_lower = sec.content_markdown.lower()
+                if any(p in sec_lower for p in ("placed at the root", "placed at the zone apex", "at zone apex")):
                     target_sec_id = sec.section_id
                     for line in sec.content_markdown.splitlines():
-                        if "cname can be placed at the root" in line.lower() or "cname at apex" in line.lower():
+                        if any(p in line.lower() for p in ("placed at the root", "placed at the zone apex", "at zone apex")):
                             actual_quote = line.strip()
                             break
                     break
