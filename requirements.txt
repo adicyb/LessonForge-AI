@@ -1,6 +1,7 @@
 # LessonForge AI Core Dependencies
 streamlit>=1.38.0
 pydantic>=2.8.0
+ddgs>=9.0.0
 duckduckgo-search>=6.2.0
 requests>=2.31.0
 reportlab>=4.2.0
