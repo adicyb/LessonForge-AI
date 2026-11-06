@@ -417,6 +417,7 @@ class InstructionalAuditor:
                     section_target=f.section_target or "sec_1",
                     issue_summary=f.description,
                     suggested_content=f.suggested_fix,
+                    target_text=f.evidence_quote,
                     status=RecommendationStatus.PENDING,
                 )
             )

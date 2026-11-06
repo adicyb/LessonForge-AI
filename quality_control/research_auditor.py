@@ -246,44 +246,79 @@ class ResearchAuditor:
         # Check 1: HTTP POST Idempotency Flaw
         # Contradiction: Claiming POST is idempotent or safe
         if "post is idempotent" in full_text_lower or "post is a safe method" in full_text_lower or "post requests are idempotent" in full_text_lower:
+            target_sec_id = "sec_http_2_methods"
+            actual_quote = "POST is idempotent"
+            for sec in lesson_plan.sections:
+                if "post is idempotent" in sec.content_markdown.lower() or "post is a safe method" in sec.content_markdown.lower():
+                    target_sec_id = sec.section_id
+                    for line in sec.content_markdown.splitlines():
+                        if "post is idempotent" in line.lower() or "post is a safe method" in line.lower():
+                            actual_quote = line.strip()
+                            break
+                    break
+
             findings.append(
                 QCFinding(
                     id=f"find_contra_http_post_{uuid.uuid4().hex[:6]}",
                     layer=QCLayer.FACTUAL_ACCURACY,
                     severity=QCSeverity.CRITICAL,
                     criterion="Factual Correctness & Non-Contradiction",
-                    section_target="sec_http_2_methods",
+                    section_target=target_sec_id,
                     description="Text incorrectly asserts that HTTP POST is idempotent or safe, directly violating RFC 9110 §9.2.2.",
-                    evidence_quote="POST is idempotent",
-                    suggested_fix="Correct the statement: RFC 9110 explicitly classifies POST as non-idempotent and non-safe because repeated requests induce multiple state modifications.",
+                    evidence_quote=actual_quote,
+                    suggested_fix="RFC 9110 explicitly classifies POST as non-idempotent and non-safe because repeated requests induce multiple state modifications.",
                 )
             )
 
         # Check 2: HTTP Status Code Misclassifications
         if "404 is a server error" in full_text_lower or "500 is a client error" in full_text_lower:
+            target_sec_id = "sec_http_3_status_codes"
+            actual_quote = "404 is a server error"
+            for sec in lesson_plan.sections:
+                if "404 is a server error" in sec.content_markdown.lower() or "500 is a client error" in sec.content_markdown.lower():
+                    target_sec_id = sec.section_id
+                    for line in sec.content_markdown.splitlines():
+                        if "404 is a server error" in line.lower() or "500 is a client error" in line.lower():
+                            actual_quote = line.strip()
+                            break
+                    break
+
             findings.append(
                 QCFinding(
                     id=f"find_contra_status_class_{uuid.uuid4().hex[:6]}",
                     layer=QCLayer.FACTUAL_ACCURACY,
                     severity=QCSeverity.CRITICAL,
                     criterion="Factual Correctness & Non-Contradiction",
-                    section_target="sec_http_3_status_codes",
+                    section_target=target_sec_id,
                     description="Severe status code misclassification: 4xx indicates Client Error, while 5xx indicates Server Error.",
-                    suggested_fix="Correct status code family definitions: 2xx Success, 4xx Client Error, 5xx Server Error.",
+                    evidence_quote=actual_quote,
+                    suggested_fix="2xx represents Success, 4xx indicates Client Error (e.g. 404 Not Found), and 5xx indicates Server Error (e.g. 500 Internal Server Error).",
                 )
             )
 
         # Check 3: DNS Apex CNAME Violation
-        if "cname can be placed at the root" in full_text_lower or "cname at apex" in full_text_lower and "cannot" not in full_text_lower:
+        if "cname can be placed at the root" in full_text_lower or ("cname at apex" in full_text_lower and "cannot" not in full_text_lower):
+            target_sec_id = "sec_dns_3_records"
+            actual_quote = "CNAME can be placed at the root zone apex without restrictions."
+            for sec in lesson_plan.sections:
+                if "cname can be placed at the root" in sec.content_markdown.lower() or "cname at apex" in sec.content_markdown.lower():
+                    target_sec_id = sec.section_id
+                    for line in sec.content_markdown.splitlines():
+                        if "cname can be placed at the root" in line.lower() or "cname at apex" in line.lower():
+                            actual_quote = line.strip()
+                            break
+                    break
+
             findings.append(
                 QCFinding(
                     id=f"find_contra_dns_apex_{uuid.uuid4().hex[:6]}",
                     layer=QCLayer.FACTUAL_ACCURACY,
                     severity=QCSeverity.CRITICAL,
                     criterion="Factual Correctness & Non-Contradiction",
-                    section_target="sec_dns_3_records",
+                    section_target=target_sec_id,
                     description="Text contradicts RFC 1034 §3.6.2 by claiming a CNAME record can coexist at the root zone apex.",
-                    suggested_fix="Clarify that RFC 1034 prohibits CNAME records at zone apex because apex requires SOA and NS records.",
+                    evidence_quote=actual_quote,
+                    suggested_fix="RFC 1034 §3.6.2 prohibits CNAME records at the zone apex because an apex requires SOA and NS records, which cannot coexist with a CNAME.",
                 )
             )
 
@@ -361,6 +396,7 @@ class ResearchAuditor:
                     section_target=f.section_target or "sec_1",
                     issue_summary=f.description,
                     suggested_content=f.suggested_fix,
+                    target_text=f.evidence_quote,
                     status=RecommendationStatus.PENDING,
                 )
             )

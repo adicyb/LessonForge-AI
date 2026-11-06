@@ -276,6 +276,7 @@ class Recommendation(BaseModel):
     section_target: str = Field(..., description="Section identifier to modify")
     issue_summary: str = Field(..., min_length=5)
     suggested_content: str = Field(..., min_length=5, description="Proposed textual or structural replacement")
+    target_text: Optional[str] = Field(None, description="The specific text snippet or proposition targeted for replacement")
     status: RecommendationStatus = Field(default=RecommendationStatus.PENDING)
     instructor_notes: Optional[str] = Field(None, description="Optional override or rationale by instructor")
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
