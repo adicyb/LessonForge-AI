@@ -105,5 +105,17 @@ class StorageError(LessonForgeError):
     """Raised when SQLite database operations fail."""
 
 
+class LessonNotFoundError(StorageError):
+    """Raised when an operation targets a lesson_id that does not exist in storage."""
+
+
+class VersionNotFoundError(StorageError):
+    """Raised when an operation targets a lesson version that does not exist in storage."""
+
+
+class DatabaseConnectionError(StorageError):
+    """Raised when connecting to SQLite database fails."""
+
+
 class ExportError(LessonForgeError):
     """Raised when PDF or Markdown document export fails."""
