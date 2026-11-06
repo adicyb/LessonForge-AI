@@ -142,7 +142,7 @@ LessonForge-AI/
 ### 2. Environment Setup
 ```bash
 # Clone the repository
-git clone https://github.com/adityakrm/LessonForge-AI.git
+git clone https://github.com/adicyb/LessonForge-AI.git
 cd LessonForge-AI
 
 # Create and activate virtual environment
