@@ -187,42 +187,6 @@ python3 scripts/demo_storage.py
 # Verify Multi-Benchmark Markdown and ReportLab PDF document exports
 python3 scripts/demo_export.py
 ```
-
----
-
-## 🎬 Demo Video Recording Plan (Walkthrough Script)
-
-Use this step-by-step 5-minute recording plan to demonstrate LessonForge AI:
-
-1. **Dashboard (0:00 - 0:45)**:
-   - Show repository metrics, 45-minute duration limit card, and stored lessons list.
-   - Click **Load HTTP Benchmark** button to demonstrate instant pre-loading and initial auditing.
-2. **Research Provenance Studio (0:45 - 1:30)**:
-   - Navigate to **Research Sources**.
-   - Show explicit provenance tags: `VERIFIED` (RFC standards), `RETRIEVED` (metadata/text fetched), and `DISCOVERED` (search hits).
-   - Point out authority scores and retrieved evidence excerpts.
-3. **Lesson Workspace (1:30 - 2:30)**:
-   - Navigate to **Lesson Workspace**.
-   - Review 45-minute timed agenda, learning outcomes, sequential sections, guided lab with rubric, and knowledge checks with answer explanations.
-   - Switch to **Content Editor** tab: edit a section and click **Save as New Version** to create Version 2.
-   - Switch to **Version History & Diffs** tab: compare Version 1 and Version 2 with color-coded diffs.
-4. **Dual Quality Control Hub (2:30 - 3:45)**:
-   - Navigate to **Dual Quality Control**.
-   - Show **QC Layer 1 (Research & Factual Accuracy)**: inspect atomic claim evaluation and RFC standards checks.
-   - Show **QC Layer 2 (Instructional Quality)**: inspect Bloom's taxonomy rubric and cognitive load pacing ($\le 20$m/sec).
-   - Switch to **Instructor Recommendation Review** tab:
-     - Review a pending recommendation (e.g. POST idempotency correction).
-     - Click **Accept**, enter an instructor annotation, and click **Apply Replacement to New Version**.
-     - Demonstrate automatic version incrementation, in-place text replacement, and independent re-audit proving score improvement from 74.0 to 100.0.
-5. **Multi-Format Export (3:45 - 4:30)**:
-   - Return to **Lesson Workspace** $\rightarrow$ **Multi-Format Export** tab.
-   - Click **Generate Markdown Artifact** and download `.md` file.
-   - Click **Generate PDF Teaching Guide** and download vector `.pdf` file.
-   - Open the generated PDF: show cover page, agenda table, styled callout boxes, and dynamic "Page X of Y" footer.
-6. **Persistence & Restart Resilience (4:30 - 5:00)**:
-   - Navigate to **Settings & System Status**: review SQLite WAL mode and foreign key diagnostics.
-   - Demonstrate that refreshing or restarting the application preserves all lesson versions and audit history.
-
 ---
 
 ## ⚖️ Standards Compliance & Citations
